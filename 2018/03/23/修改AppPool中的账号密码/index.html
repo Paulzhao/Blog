@@ -100,7 +100,7 @@
         <li class="mobile-menu-item">
           
           
-            Home
+            首页
           
         </li>
       </a>
@@ -109,7 +109,7 @@
         <li class="mobile-menu-item">
           
           
-            Archives
+            归档
           
         </li>
       </a>
@@ -118,7 +118,7 @@
         <li class="mobile-menu-item">
           
           
-            About
+            关于
           
         </li>
       </a>
@@ -139,7 +139,7 @@
           <a class="menu-item-link" href="/">
             
             
-              Home
+              首页
             
           </a>
         </li>
@@ -148,7 +148,7 @@
           <a class="menu-item-link" href="/archives/">
             
             
-              Archives
+              归档
             
           </a>
         </li>
@@ -157,7 +157,7 @@
           <a class="menu-item-link" href="/about">
             
             
-              About
+              关于
             
           </a>
         </li>
@@ -199,7 +199,7 @@
     
     
   <div class="post-toc" id="post-toc">
-    <h2 class="post-toc-title">Contents</h2>
+    <h2 class="post-toc-title">文章目录</h2>
     <div class="post-toc-content">
       <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#更新IIS中ApplicationPool中的账号密码"><span class="toc-text">更新IIS中ApplicationPool中的账号密码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Issue-Fix"><span class="toc-text">Issue Fix</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新Windows-Service-Password"><span class="toc-text">更新Windows Service Password</span></a></li></ol>
     </div>
@@ -213,7 +213,7 @@
 <h2 id="更新IIS中ApplicationPool中的账号密码"><a href="#更新IIS中ApplicationPool中的账号密码" class="headerlink" title="更新IIS中ApplicationPool中的账号密码"></a>更新IIS中ApplicationPool中的账号密码</h2><p>通过查阅相关的文档，发现可以用下面的语句是实现对账号的修改</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获得当前的用户名，密码信息</span></span><br><span class="line"><span class="built_in">Get-ItemProperty</span> IIS:\AppPools\TestPool -Name processModel</span><br><span class="line"><span class="comment">#设置用户名，密码</span></span><br><span class="line"><span class="built_in">Set-ItemProperty</span> IIS:\AppPools\TestPool -Name processModel -value @&#123;userName=<span class="string">"PaulZhao"</span>;password=<span class="string">"YourPassword"</span>;identitytype=<span class="number">3</span>&#125;</span><br></pre></td></tr></table></figure>
 <p>通过上面的命令 ，我们发现可以修改掉这个AppPool中的用户名和密码，对于 userName和 password属性我们都比较熟悉，但是对于IdentityType这个属性的值，我们就没用那么清楚了，不知道在什么情况下该设置成什么值，所以查阅了MSDN之后才发现了这些值分别对应什么(Link: <a href="https://docs.microsoft.com/en-us/iis/configuration/system.applicationhost/applicationpools/add/processmodel)。" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/iis/configuration/system.applicationhost/applicationpools/add/processmodel)。</a></p>
-<p>&lt;!— more —&gt;</p>
+<a id="more"></a>
 <table>
 <thead>
 <tr>
@@ -262,15 +262,15 @@
 
   <div class="post-copyright">
     <p class="copyright-item">
-      <span>Author: </span>
+      <span>原文作者: </span>
       <a href="http://PaulZhao.github.io">Paul Zhao</a>
     </p>
     <p class="copyright-item">
-      <span>Link: </span>
+      <span>原文链接: </span>
       <a href="http://PaulZhao.github.io/2018/03/23/修改AppPool中的账号密码/">http://PaulZhao.github.io/2018/03/23/修改AppPool中的账号密码/</a>
     </p>
     <p class="copyright-item">
-      <span>License: </span>
+      <span>许可协议: </span>
       
       <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
     </p>
@@ -298,7 +298,7 @@
     
       <a class="next" href="/2018/03/21/我的第一篇文章/">
         <span class="next-text nav-default">我的第一篇文章</span>
-        <span class="prev-text nav-mobile">Next</span>
+        <span class="prev-text nav-mobile">下一篇</span>
         <i class="iconfont icon-right"></i>
       </a>
     
@@ -364,11 +364,11 @@
 
 <div class="copyright">
   <span class="power-by">
-    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
   </span>
   <span class="division">|</span>
   <span class="theme-info">
-    Theme - 
+    主题 - 
     <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
   </span>
 
