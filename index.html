@@ -98,7 +98,7 @@
         <li class="mobile-menu-item">
           
           
-            首页
+            Home
           
         </li>
       </a>
@@ -107,7 +107,7 @@
         <li class="mobile-menu-item">
           
           
-            归档
+            Archives
           
         </li>
       </a>
@@ -116,7 +116,7 @@
         <li class="mobile-menu-item">
           
           
-            关于
+            About
           
         </li>
       </a>
@@ -137,7 +137,7 @@
           <a class="menu-item-link" href="/">
             
             
-              首页
+              Home
             
           </a>
         </li>
@@ -146,7 +146,7 @@
           <a class="menu-item-link" href="/archives/">
             
             
-              归档
+              Archives
             
           </a>
         </li>
@@ -155,7 +155,7 @@
           <a class="menu-item-link" href="/about">
             
             
-              关于
+              About
             
           </a>
         </li>
@@ -210,6 +210,7 @@
 <h2 id="更新IIS中ApplicationPool中的账号密码"><a href="#更新IIS中ApplicationPool中的账号密码" class="headerlink" title="更新IIS中ApplicationPool中的账号密码"></a>更新IIS中ApplicationPool中的账号密码</h2><p>通过查阅相关的文档，发现可以用下面的语句是实现对账号的修改</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获得当前的用户名，密码信息</span></span><br><span class="line"><span class="built_in">Get-ItemProperty</span> IIS:\AppPools\TestPool -Name processModel</span><br><span class="line"><span class="comment">#设置用户名，密码</span></span><br><span class="line"><span class="built_in">Set-ItemProperty</span> IIS:\AppPools\TestPool -Name processModel -value @&#123;userName=<span class="string">"PaulZhao"</span>;password=<span class="string">"YourPassword"</span>;identitytype=<span class="number">3</span>&#125;</span><br></pre></td></tr></table></figure>
 <p>通过上面的命令 ，我们发现可以修改掉这个AppPool中的用户名和密码，对于 userName和 password属性我们都比较熟悉，但是对于IdentityType这个属性的值，我们就没用那么清楚了，不知道在什么情况下该设置成什么值，所以查阅了MSDN之后才发现了这些值分别对应什么(Link: <a href="https://docs.microsoft.com/en-us/iis/configuration/system.applicationhost/applicationpools/add/processmodel)。" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/iis/configuration/system.applicationhost/applicationpools/add/processmodel)。</a></p>
+<p>&lt;!— more —&gt;</p>
 <table>
 <thead>
 <tr>
@@ -360,11 +361,11 @@
 
 <div class="copyright">
   <span class="power-by">
-    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
   </span>
   <span class="division">|</span>
   <span class="theme-info">
-    主题 - 
+    Theme - 
     <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
   </span>
 
