@@ -1,4 +1,398 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="PaulZhao的博客"><title>PaulZhao Blog | Paul's Blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">PaulZhao Blog</h1><a id="logo" href="/.">PaulZhao Blog</a><p class="description">Paul's Blog</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title"><a href="/2018/03/23/修改AppPool中的账号密码/">修改AppPool中的账号密码</a></h1><div class="post-meta">2018-03-23</div><div class="post-content"><p>最近公司的Security升级，要求将Windows中的一些Service Account修改密码，来达到增强安全。但是之前有很多的IIS和Windows Service都是用的Service Account来进行配置的，所以这些全都是需要进行更新升级的。</p>
-<p>粗俗了一下，会有好几百个需要进行更新，所以还是去写一些脚本来实现这些功能吧</p></div><p class="readmore"><a href="/2018/03/23/修改AppPool中的账号密码/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2018/03/21/我的第一篇文章/">我的第一篇文章</a></h1><div class="post-meta">2018-03-21</div><div class="post-content"><p>#全新的起点</p>
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="PaulZhao的博客"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/default" title="PaulZhao Blog">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://PaulZhao.github.io/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+
+    <title> PaulZhao Blog </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">PaulZhao Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">PaulZhao Blog</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts">
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2018/03/23/修改AppPool中的账号密码/">修改AppPool中的账号密码</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2018-03-23
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/PowerShell/">PowerShell</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <p>最近公司的Security升级，要求将Windows中的一些Service Account修改密码，来达到增强安全。但是之前有很多的IIS和Windows Service都是用的Service Account来进行配置的，所以这些全都是需要进行更新升级的。</p>
+<p>粗俗了一下，会有好几百个需要进行更新，所以还是去写一些脚本来实现这些功能吧</p>
+<h2 id="更新IIS中ApplicationPool中的账号密码"><a href="#更新IIS中ApplicationPool中的账号密码" class="headerlink" title="更新IIS中ApplicationPool中的账号密码"></a>更新IIS中ApplicationPool中的账号密码</h2><p>通过查阅相关的文档，发现可以用下面的语句是实现对账号的修改</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获得当前的用户名，密码信息</span></span><br><span class="line"><span class="built_in">Get-ItemProperty</span> IIS:\AppPools\TestPool -Name processModel</span><br><span class="line"><span class="comment">#设置用户名，密码</span></span><br><span class="line"><span class="built_in">Set-ItemProperty</span> IIS:\AppPools\TestPool -Name processModel -value @&#123;userName=<span class="string">"PaulZhao"</span>;password=<span class="string">"YourPassword"</span>;identitytype=<span class="number">3</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>通过上面的命令 ，我们发现可以修改掉这个AppPool中的用户名和密码，对于 userName和 password属性我们都比较熟悉，但是对于IdentityType这个属性的值，我们就没用那么清楚了，不知道在什么情况下该设置成什么值，所以查阅了MSDN之后才发现了这些值分别对应什么(Link: <a href="https://docs.microsoft.com/en-us/iis/configuration/system.applicationhost/applicationpools/add/processmodel)。" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/iis/configuration/system.applicationhost/applicationpools/add/processmodel)。</a></p>
+<table>
+<thead>
+<tr>
+<th>IdentityType</th>
+<th>Type Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ApplicationPoolIdentity</td>
+<td>Specifies that the application pool runs under the dynamically-created application pool identity account. Starting in IIS 7.5, <code>ApplicationPoolIdentity</code> is the default identity under which to run application pools. (In IIS 7.0 the default identity was NetworkService.         When an application pool runs under the <code>ApplicationPoolIdentity</code>account, the      application pool accesses resources as the “IIS AppPool&lt;AppPool&gt;” identity. For example, for the “DefaultAppPool”, the identity is “IIS AppPool\DefaultAppPool”. This identity allows administrators to specify permissions that pertain only to the identity under which the application pool is running, thereby increasing server security.                           The numeric value is <strong>4</strong>.</td>
+</tr>
+<tr>
+<td>LocalService</td>
+<td>Specifies that the application pool runs under the built-in <strong>LocalService</strong> account, which has the same user rights as <strong>NetworkService</strong> .                                                                When an application pool runs under the <strong>LocalService</strong> account, the application pool presents anonymous credentials on the network.                                                                                                                            <strong>Note: </strong>Running an application pool under an account that has high-level user rights is a serious security risk.                                                                                                           The numeric value is <strong>1</strong></td>
+</tr>
+<tr>
+<td>LocalSystem</td>
+<td>Specifies that the application pool runs under the built-in <strong>LocalSystem</strong> account, which has extensive privileges on the local computer and acts as the computer on the network.  <strong>Note: </strong>Running an application pool under an account that has high-level user rights is a serious security risk.                                                                                                           The numeric value is <strong>0</strong>.</td>
+</tr>
+<tr>
+<td>NetworkService</td>
+<td>Specifies that the application pool runs under the built-in <strong>NetworkService</strong>account. In IIS 7.0 this was the default identity under which to run application pools; in IIS 7.5 default was changed to ApplicationPoolIdentity.                                                                                   When an application pool runs under the <strong>NetworkService</strong> account, the application pool accesses network resources as the computer account.                                                       The numeric value is <strong>2</strong>.</td>
+</tr>
+<tr>
+<td>SpecificUser</td>
+<td>Specifies that the application pool runs under a custom identity, which is configured by using the <strong>userName</strong> and <strong>password</strong> attributes.                                                             <strong>Note: </strong>To avoid storing unencrypted password strings in configuration files, always use AppCmd.exe or IIS Manager to enter passwords. If you use these management tools, the password strings will be encrypted automatically before they are written to the XML configuration files. This provides better password security than storing unencrypted passwords.                                                                                                                      <strong>Note: </strong>Managed service accounts can be used to enable services and tasks to share their own domain accounts and to enable automatic password management, eliminating the need for an administrator to manually administer passwords. For more information, see <a href="https://technet.microsoft.com/en-us/library/hh831451.aspx" target="_blank" rel="noopener">What’s New for Managed Service Accounts</a>.                                                                     The numeric value is <strong>3</strong>.</td>
+</tr>
+</tbody>
+</table>
+<p>接下来我们获取所有的ApplicationPool，然后循环来判断我们需要进行修改的那些Pool</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#定义数组来存储需要进行修改的账号</span></span><br><span class="line"><span class="variable">$Accounts</span> = <span class="string">'test1'</span>,<span class="string">'test2'</span>,<span class="string">'test3'</span></span><br><span class="line"><span class="comment">#获取所有的ApplicationPool</span></span><br><span class="line"><span class="variable">$Pools</span> = <span class="built_in">Get-Item</span> IIS:\AppPools</span><br><span class="line"><span class="comment">#查看Pool有哪些</span></span><br><span class="line"><span class="variable">$Pools</span>.Children</span><br><span class="line"><span class="comment">#遍历查看属性并修改</span></span><br><span class="line"><span class="variable">$Pools</span>.Children.Keys | % &#123;</span><br><span class="line">  <span class="variable">$AppPool</span> = <span class="built_in">Get-ItemProperty</span> IIS:\AppPools\<span class="variable">$_</span> -Name processModel</span><br><span class="line">  <span class="keyword">if</span>((<span class="variable">$AppPool</span>.identitytype <span class="nomarkup">-eq</span> <span class="string">"SpecificUser"</span>) -and (<span class="variable">$AppPool</span>.userName <span class="nomarkup">-in</span> <span class="variable">$Accounts</span>))&#123;</span><br><span class="line">    	<span class="built_in">Write-host</span> <span class="string">"Start modify account for AppPool <span class="variable">$_</span> identity"</span></span><br><span class="line">    	<span class="built_in">Set-ItemProperty</span> IIS:\AppPools\TestPool -Name processModel value                          @&#123;userName=<span class="string">"PaulZhao"</span>;password=<span class="string">"YourPassword"</span>;identitytype=<span class="number">3</span>&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后我们再加上机器循环，来实现远程修改,下面是完整代码</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">import-module</span> WebAdministration</span><br><span class="line"><span class="comment">#Define a HashTable to store username and password</span></span><br><span class="line"><span class="variable">$Accounts</span> = @&#123;<span class="string">'Domain\testAccount1'</span>=<span class="string">"Password1"</span>;<span class="string">'Account2'</span>=<span class="string">"Password2"</span>;<span class="string">'Account3'</span>=<span class="string">"Password3"</span>&#125;</span><br><span class="line"><span class="keyword">function</span> setCredForVirtualDirectory&#123;</span><br><span class="line">  [CmdletBinding()]param(</span><br><span class="line">      <span class="variable">$website</span>,</span><br><span class="line">      <span class="variable">$application</span>,</span><br><span class="line">      <span class="variable">$virtualName</span>,</span><br><span class="line">      <span class="variable">$cred</span></span><br><span class="line">   )   </span><br><span class="line">   Set-WebConfiguration -Filter  <span class="string">"$(<span class="variable">$website</span>.ItemXPath)/application[@path='<span class="variable">$application</span>']/virtualDirectory[@path='<span class="variable">$virtualName</span>']"</span> -Value @&#123;userName=<span class="string">"$(<span class="variable">$cred</span>.UserName)"</span>;  password=<span class="string">"$(<span class="variable">$cred</span>.GetNetworkCredential().password)"</span>&#125;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> setCredForApplication&#123;</span><br><span class="line">  [CmdletBinding()]param(</span><br><span class="line">      <span class="variable">$application</span>,</span><br><span class="line">      <span class="variable">$cred</span></span><br><span class="line">  )   </span><br><span class="line">  <span class="built_in">Write-Host</span> <span class="string">"Modify application $(<span class="variable">$application</span>.path) credential"</span></span><br><span class="line">  Set-WebConfiguration -Filter <span class="string">"$(<span class="variable">$application</span>.ItemXPath)/virtualDirectory[@path='/']"</span> -Value @&#123;userName=<span class="string">"$(<span class="variable">$cred</span>.UserName)"</span>; password=<span class="string">"$(<span class="variable">$cred</span>.GetNetworkCredential().password)"</span>&#125;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#Get ApplicationPool List</span></span><br><span class="line"><span class="variable">$Pools</span> = <span class="built_in">Get-Item</span> IIS:\AppPools</span><br><span class="line"><span class="comment">#Modify Application Pool credential</span></span><br><span class="line">$(<span class="variable">$Pools</span>.Children.Keys) | % &#123;</span><br><span class="line">  <span class="variable">$AppPool</span> = <span class="built_in">Get-ItemProperty</span> IIS:\AppPools\<span class="variable">$_</span> -Name processModel</span><br><span class="line">  <span class="keyword">if</span> ((<span class="variable">$AppPool</span>.identitytype <span class="nomarkup">-eq</span> <span class="string">"SpecificUser"</span>) -and (<span class="variable">$AppPool</span>.userName <span class="nomarkup">-in</span> <span class="variable">$Accounts</span>.keys)) &#123;</span><br><span class="line">    <span class="built_in">Write-host</span> <span class="string">"Start modify account for AppPool <span class="variable">$_</span> identity"</span></span><br><span class="line">    <span class="variable">$username</span> = <span class="variable">$AppPool</span>.userName</span><br><span class="line">    <span class="built_in">Set-ItemProperty</span> IIS:\AppPools\<span class="variable">$_</span> -Name processModel -value @&#123;userName = <span class="variable">$username</span>; password = <span class="variable">$Accounts</span>[<span class="variable">$username</span>]; identitytype = <span class="number">3</span>&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#Modify Website Application and VirtualDirectory Credential</span></span><br><span class="line"><span class="built_in">Get-ChildItem</span> IIS:\sites | % &#123;</span><br><span class="line">  <span class="variable">$website</span> = <span class="variable">$_</span></span><br><span class="line">  <span class="comment">#Define a ArrayList to store all virtual directory path</span></span><br><span class="line">  <span class="variable">$ApplicationPath</span> = @(<span class="string">"/"</span>)</span><br><span class="line">  <span class="variable">$ApplicationLists</span> = Get-WebApplication -site <span class="variable">$website</span>.Name</span><br><span class="line">  <span class="built_in">Write-Host</span> <span class="string">"Start to modify Application credential"</span></span><br><span class="line">  <span class="variable">$ApplicationLists</span> | % &#123;</span><br><span class="line">	<span class="variable">$appAcountName</span>=(Get-WebConfiguration -Filter <span class="string">"$(<span class="variable">$_</span>.ItemXPath)/virtualDirectory[@path='/']"</span>).userName</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$appAcountName</span> <span class="nomarkup">-in</span> <span class="variable">$Accounts</span>.keys)&#123;</span><br><span class="line">      <span class="variable">$pass</span> = <span class="built_in">ConvertTo-SecureString</span> <span class="variable">$Accounts</span>[<span class="variable">$appAcountName</span>] -AsPlainText -Force</span><br><span class="line">      <span class="variable">$cred</span> = <span class="built_in">New-Object</span> System.Management.Automation.PSCredential(<span class="variable">$appAcountName</span>,<span class="variable">$pass</span>)</span><br><span class="line">      setCredForApplication -application <span class="variable">$_</span> -cred <span class="variable">$cred</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">Write-Host</span> <span class="string">"Finish to modify Application credential, start to modify virtual directory credential"</span></span><br><span class="line">  <span class="keyword">foreach</span>(<span class="variable">$x</span> <span class="keyword">in</span> <span class="variable">$ApplicationLists</span>)&#123;</span><br><span class="line">      <span class="variable">$ApplicationPath</span> += <span class="variable">$x</span>.Path</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="variable">$ApplicationPath</span> | % &#123;</span><br><span class="line">    <span class="variable">$apps</span> = <span class="variable">$_</span></span><br><span class="line">    <span class="comment">#$appAcountName = GetCredForApplication -application $apps</span></span><br><span class="line">    Get-WebVirtualDirectory -Site <span class="variable">$website</span>.Name -Application <span class="variable">$apps</span> | % &#123;</span><br><span class="line">      <span class="keyword">if</span>(<span class="variable">$_</span>.username <span class="nomarkup">-in</span> <span class="variable">$Accounts</span>.Keys )&#123;</span><br><span class="line">          <span class="built_in">Write-Host</span> <span class="string">"Now modify $(<span class="variable">$website</span>.name) virtualDirectory $(<span class="variable">$_</span>.path)"</span></span><br><span class="line">          <span class="variable">$users</span> = <span class="variable">$_</span>.username</span><br><span class="line">          <span class="variable">$password</span> = <span class="built_in">ConvertTo-SecureString</span> <span class="variable">$Accounts</span>[<span class="variable">$users</span>] -AsPlainText -Force</span><br><span class="line">          <span class="variable">$cred</span> = <span class="built_in">New-Object</span> System.Management.Automation.PSCredential(<span class="variable">$users</span>,<span class="variable">$password</span>)</span><br><span class="line">          setCredForVirtualDirectory -website <span class="variable">$website</span> -application <span class="variable">$apps</span> -virtualName <span class="variable">$_</span>.Path -cred <span class="variable">$cred</span></span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">Write-Host</span> <span class="string">"Finished all credential modify"</span></span><br><span class="line">&#125;</span><br><span class="line">&amp; iisreset /restart</span><br></pre></td></tr></table></figure>
+<h3 id="Issue-Fix"><a href="#Issue-Fix" class="headerlink" title="Issue Fix"></a>Issue Fix</h3><p>再第一次执行的时候遇到了这样一个错误</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#an error occurred while enumerating through a collection:xxxx</span></span><br><span class="line"><span class="comment">#这个问题是跟我们遍历这个key的集合有关系 $Pools.Children.Keys，再我给外面加了一层$()之后就解决了</span></span><br></pre></td></tr></table></figure>
+<h2 id="更新Windows-Service-Password"><a href="#更新Windows-Service-Password" class="headerlink" title="更新Windows Service Password"></a>更新Windows Service Password</h2><p>Windows Service Account 在Powershell6.0及以后的版本都提供了的修改账户的功能，但是在6.0之前的貌似没有直接的Powershell command来修改，所以这个就需要去修改WMI中Service的配置信息。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Modify Windows Service Credential</span></span><br><span class="line"><span class="variable">$userPass</span> = @&#123;<span class="string">"Domain\Account1"</span>=<span class="string">"password1"</span>;<span class="string">"username2"</span>=<span class="string">"password2"</span>;<span class="string">"username3"</span>=<span class="string">"password3"</span>&#125;</span><br><span class="line"><span class="variable">$ServiceFilter</span> = @(<span class="string">"Windows*"</span>,<span class="string">"TestService*"</span>)</span><br><span class="line"><span class="keyword">function</span> modifyServiceCred&#123;</span><br><span class="line">    [CmdletBinding()]param(</span><br><span class="line">        <span class="variable">$cred</span>,</span><br><span class="line">        <span class="variable">$WMIServiceObject</span></span><br><span class="line">    )</span><br><span class="line">    <span class="variable">$cred</span>.UserName</span><br><span class="line">    <span class="variable">$result</span> = <span class="variable">$WMIServiceObject</span>.change(<span class="literal">$null</span>,<span class="literal">$null</span>,<span class="literal">$null</span>,<span class="literal">$null</span>,<span class="literal">$null</span>,<span class="literal">$null</span>,<span class="variable">$cred</span>.UserName,<span class="variable">$cred</span>.GetNetworkCredential().password,<span class="literal">$null</span>,<span class="literal">$null</span>,<span class="literal">$null</span>)</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$result</span>.ReturnValue <span class="nomarkup">-eq</span> <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">Write-Host</span> <span class="string">"Modify $(<span class="variable">$WMIServiceObject</span>.Name) success"</span> -BackgroundColor Green</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="built_in">Write-Host</span> <span class="string">"Modify $(<span class="variable">$WMIServiceObject</span>.Name) Failed"</span> -BackgroundColor Red</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> getService&#123;</span><br><span class="line">    [CmdletBinding()]param(</span><br><span class="line">        <span class="variable">$ServiceName</span></span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Get-WMIObject</span> -class <span class="string">"Win32_Service"</span> -Filter <span class="string">"name='<span class="variable">$ServiceName</span>'"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Get-Service</span> -Name <span class="variable">$ServiceFilter</span>  | % &#123;</span><br><span class="line">    <span class="variable">$service</span> = getService -ServiceName <span class="variable">$_</span>.Name</span><br><span class="line">    <span class="keyword">if</span>((<span class="variable">$service</span>) -and (<span class="variable">$service</span>.StartName <span class="nomarkup">-in</span> <span class="variable">$userPass</span>.keys))&#123;</span><br><span class="line">        <span class="built_in">Write-Host</span> <span class="string">"now to modify $(<span class="variable">$_</span>.Name) credential"</span></span><br><span class="line">        <span class="variable">$newPass</span> = <span class="built_in">ConvertTo-SecureString</span> <span class="variable">$userPass</span>[<span class="variable">$service</span>.StartName] -AsPlainText -Force</span><br><span class="line">        <span class="variable">$cred</span> = <span class="built_in">New-Object</span> System.Management.Automation.PSCredential(<span class="variable">$service</span>.StartName,<span class="variable">$newPass</span>)</span><br><span class="line">        modifyServiceCred -cred <span class="variable">$cred</span> -WMIServiceObject <span class="variable">$service</span></span><br><span class="line">        <span class="variable">$service</span>.restart()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2018/03/21/我的第一篇文章/">我的第一篇文章</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2018-03-21
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <p>#全新的起点</p>
 <p>以前的Blog因为服务器等等各种原因，停了好长时间，最近服务换了新的，但是却很少写东西了，希望能在这里继续，回持续把我以前的东西搬过来。</p>
-</div><p class="readmore"><a href="/2018/03/21/我的第一篇文章/">阅读全文</a></p></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://PaulZhao.github.io"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/PowerShell/">PowerShell</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Powershell/" style="font-size: 15px;">Powershell</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/23/修改AppPool中的账号密码/">修改AppPool中的账号密码</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/21/我的第一篇文章/">我的第一篇文章</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">PaulZhao Blog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    
+    
+  </nav>
+
+
+          </div>
+          
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+    
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+     
+      2015 - 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Paul Zhao</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>
