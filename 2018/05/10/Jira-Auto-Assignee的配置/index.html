@@ -17,10 +17,12 @@
 
 
 
-  <meta name="description" content="PaulZhao的博客"/>
+  <meta name="description" content="Jira Auto Assignee的配置"/>
 
 
 
+
+  <meta name="keywords" content="Jira, PaulZhao Blog" />
 
 
 
@@ -40,7 +42,7 @@
 
 
 
-<link rel="canonical" href="http://PaulZhao.github.io/"/>
+<link rel="canonical" href="http://PaulZhao.github.io/2018/05/10/Jira-Auto-Assignee的配置/"/>
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
@@ -77,7 +79,7 @@
 
 
 
-    <title> PaulZhao Blog </title>
+    <title> Jira Auto Assignee的配置 - PaulZhao Blog </title>
   </head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
@@ -206,14 +208,12 @@
         <div class="content-wrapper">
           <div id="content" class="content">
             
-  <section id="posts" class="posts">
-    
-      
+  
   <article class="post">
     <header class="post-header">
       <h1 class="post-title">
         
-          <a class="post-link" href="/2018/05/10/Jira-Auto-Assignee的配置/">Jira Auto Assignee的配置</a>
+          Jira Auto Assignee的配置
         
       </h1>
 
@@ -231,11 +231,7 @@
 
     <div class="post-content">
       
-        
-        
-
-        
-          <p>最近在设置Jira Workflow的时候，有的项目组需要设置创建的Bug默认指定给某个组，有的项目却并不需要设置这样的情况，因为这些项目使用的是同一套WorkFlow，所以如果在创建Bug的时候，在PostFunction里给他们统一设置了Assignee 为 -1 就会影响所有的项目，并且这样的设置有一个很大的问题，就是会覆盖掉你在Create Bug页面上指定的Assignee。</p>
+        <p>最近在设置Jira Workflow的时候，有的项目组需要设置创建的Bug默认指定给某个组，有的项目却并不需要设置这样的情况，因为这些项目使用的是同一套WorkFlow，所以如果在创建Bug的时候，在PostFunction里给他们统一设置了Assignee 为 -1 就会影响所有的项目，并且这样的设置有一个很大的问题，就是会覆盖掉你在Create Bug页面上指定的Assignee。</p>
 <p>为了解决这个问题，就找了找Jira的文档，写出下面的语句来控制，写在Post function里的custom script</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.atlassian.jira.ComponentManager</span><br><span class="line"><span class="keyword">import</span> com.atlassian.jira.issue.MutableIssue</span><br><span class="line"><span class="keyword">import</span> com.atlassian.jira.security.Permissions</span><br><span class="line"><span class="keyword">import</span> org.apache.log4j.Logger</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> componentManager = ComponentManager.getInstance()</span><br><span class="line"><span class="keyword">def</span> projectLead = issue.getProjectObject().getProjectLead().getKey()</span><br><span class="line"><span class="keyword">def</span> projectAssigneeType = issue.getProjectObject().getAssigneeType()</span><br><span class="line"><span class="keyword">def</span> permissionManager = componentManager.getPermissionManager()</span><br><span class="line"></span><br><span class="line"><span class="comment">//打印出类型来，在Log里我们能看出是3是UnAssigned，2是Project Lead,详情看下面的附录链接</span></span><br><span class="line">log.error(<span class="string">"Auto assign for issue "</span> + projectAssigneeType)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ((! issue.assigneeId) &amp;&amp; (projectAssigneeType == <span class="number">2</span>)) &#123;</span><br><span class="line">    <span class="keyword">if</span> (permissionManager.hasPermission(Permissions.ASSIGNABLE_USER, issue, projectLead)) &#123;</span><br><span class="line">        issue.assigneeId = projectLead</span><br><span class="line">        <span class="comment">//issue.assigneeId = Unassigned  设置issue Assignee为 Unassigned</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>附录</p>
@@ -245,123 +241,69 @@
 <li>关于Jira中 AssigneeType 类型，<a href="https://docs.atlassian.com/software/jira/docs/api/6.2.1/com/atlassian/jira/project/AssigneeTypes.html#PROJECT_LEAD" target="_blank" rel="noopener">https://docs.atlassian.com/software/jira/docs/api/6.2.1/com/atlassian/jira/project/AssigneeTypes.html#PROJECT_LEAD</a></li>
 </ol>
 
-        
       
     </div>
 
     
-
-    
-
-  </article>
-
-    
       
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2018/03/23/修改AppPool中的账号密码/">修改AppPool中的账号密码</a>
-        
-      </h1>
+      
 
-      <div class="post-meta">
-        <span class="post-time">
-          2018-03-23
-        </span>
+  <div class="post-copyright">
+    <p class="copyright-item">
+      <span>原文作者: </span>
+      <a href="http://PaulZhao.github.io">Paul Zhao</a>
+    </p>
+    <p class="copyright-item">
+      <span>原文链接: </span>
+      <a href="http://PaulZhao.github.io/2018/05/10/Jira-Auto-Assignee的配置/">http://PaulZhao.github.io/2018/05/10/Jira-Auto-Assignee的配置/</a>
+    </p>
+    <p class="copyright-item">
+      <span>许可协议: </span>
+      
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
+  </div>
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
         
-          <div class="post-category">
+          <div class="post-tags">
             
-              <a href="/categories/PowerShell/">PowerShell</a>
+              <a href="/tags/Jira/">Jira</a>
             
           </div>
         
         
-      </div>
-    </header>
-
+        
+  <nav class="post-nav">
     
     
-
-    <div class="post-content">
-      
-        
-        
-          
-        
-
-        
-          <p>最近公司的Security升级，要求将Windows中的一些Service Account修改密码，来达到增强安全。但是之前有很多的IIS和Windows Service都是用的Service Account来进行配置的，所以这些全都是需要进行更新升级的。</p>
-<p>粗俗了一下，会有好几百个需要进行更新，所以还是去写一些脚本来实现这些功能吧</p>
-<h2 id="更新IIS中ApplicationPool中的账号密码"><a href="#更新IIS中ApplicationPool中的账号密码" class="headerlink" title="更新IIS中ApplicationPool中的账号密码"></a>更新IIS中ApplicationPool中的账号密码</h2><p>通过查阅相关的文档，发现可以用下面的语句是实现对账号的修改</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获得当前的用户名，密码信息</span></span><br><span class="line"><span class="built_in">Get-ItemProperty</span> IIS:\AppPools\TestPool -Name processModel</span><br><span class="line"><span class="comment">#设置用户名，密码</span></span><br><span class="line"><span class="built_in">Set-ItemProperty</span> IIS:\AppPools\TestPool -Name processModel -value @&#123;userName=<span class="string">"PaulZhao"</span>;password=<span class="string">"YourPassword"</span>;identitytype=<span class="number">3</span>&#125;</span><br></pre></td></tr></table></figure>
-<p>通过上面的命令 ，我们发现可以修改掉这个AppPool中的用户名和密码，对于 userName和 password属性我们都比较熟悉，但是对于IdentityType这个属性的值，我们就没用那么清楚了，不知道在什么情况下该设置成什么值，所以查阅了MSDN之后才发现了这些值分别对应什么(Link: <a href="https://docs.microsoft.com/en-us/iis/configuration/system.applicationhost/applicationpools/add/processmodel)。" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/iis/configuration/system.applicationhost/applicationpools/add/processmodel)。</a></p>
-          <div class="read-more">
-            <a href="/2018/03/23/修改AppPool中的账号密码/" class="read-more-link">阅读更多</a>
-          </div>
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2018/03/21/我的第一篇文章/">我的第一篇文章</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-03-21
-        </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <p>#全新的起点</p>
-<p>以前的Blog因为服务器等等各种原因，停了好长时间，最近服务换了新的，但是却很少写东西了，希望能在这里继续，回持续把我以前的东西搬过来。</p>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    
+      <a class="next" href="/2018/03/23/修改AppPool中的账号密码/">
+        <span class="next-text nav-default">修改AppPool中的账号密码</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
     
   </nav>
 
+      </footer>
+    
+
+  </article>
+
 
           </div>
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
       </main>
@@ -441,6 +383,11 @@
     </div>
 
     
+  
+  
+
+  
+
 
 
     
