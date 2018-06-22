@@ -213,6 +213,58 @@
     <header class="post-header">
       <h1 class="post-title">
         
+          <a class="post-link" href="/2018/06/22/Jira密码修改/">Jira密码修改</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2018-06-22
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/Jira/">Jira</a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <p>一般我们在Jira中会配置本地和域认证，如果域认证的密码改了就需要去Jira上面修改域认证账户的密码，这个时候就需要本地账户来登陆上去修改 ，但是如果本地用户的密码忘了，就需要去数据库中修改。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#查询当前本地用户中属于jira-administrators组的用户</span><br><span class="line">select child_name,directory_id from cwd_membership where parent_name=&apos;jira-administrators&apos; and directory_id=1;</span><br><span class="line"></span><br><span class="line">#根据上面查出来的用户名来查看该用户的信息，ID，是否Active等等</span><br><span class="line">select * from cwd_user where user_name = &apos;test&apos;;</span><br><span class="line"></span><br><span class="line">#使用下面的语句来修改该用户的密码,该密码为 Ab123456</span><br><span class="line">update cwd_user set credential = &apos;&#123;PKCS5S2&#125;ltrb9LlmZ0QDCJvktxd45WgYLOgPt2XTV8X7av2p0mhPvIwofs9bHYVz2OXQ6/kF&apos; where id=10001;</span><br></pre></td></tr></table></figure>
+<p>上面的修改完成之后，重启一下Jira，就可以使用新的密码来登陆Jira</p>
+<p>关于是否能生成自己的密码，有一个Python的库提供了这样的接口(Passlib)，我们装上这个包，执行下面的语句就可以得到生成符合的密码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> passlib.hash <span class="keyword">import</span> atlassian_pbkdf2_sha1</span><br><span class="line">atlassian_pbkdf2_sha1.encrypt(<span class="string">"Ab123456"</span>)</span><br><span class="line"><span class="string">'&#123;PKCS5S2&#125;aO1dK0VorZXSWqs1JoTwftRWDHxo753cFw8MOL2x9OPCnIAaTOd+RE32IzTpHv9v'</span></span><br></pre></td></tr></table></figure>
+<p>附 Passlib的官方文档</p>
+<p><a href="http://passlib.readthedocs.io/en/stable/index.html" target="_blank" rel="noopener">http://passlib.readthedocs.io/en/stable/index.html</a> </p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
           <a class="post-link" href="/2018/05/10/Jira-Auto-Assignee的配置/">Jira Auto Assignee的配置</a>
         
       </h1>
