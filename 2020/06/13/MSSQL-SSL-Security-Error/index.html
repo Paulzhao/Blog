@@ -17,12 +17,12 @@
 
 
 
-  <meta name="description" content="Jira Auto Assignee的配置"/>
+  <meta name="description" content="MSSQL SSL Security Error"/>
 
 
 
 
-  <meta name="keywords" content="Jira, PaulZhao Blog" />
+  <meta name="keywords" content="MSSQL, PaulZhao Blog" />
 
 
 
@@ -42,7 +42,7 @@
 
 
 
-<link rel="canonical" href="http://PaulZhao.github.io/2018/05/10/Jira-Auto-Assignee的配置/"/>
+<link rel="canonical" href="http://PaulZhao.github.io/2020/06/13/MSSQL-SSL-Security-Error/"/>
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
@@ -79,7 +79,7 @@
 
 
 
-    <title> Jira Auto Assignee的配置 - PaulZhao Blog </title>
+    <title> MSSQL SSL Security Error - PaulZhao Blog </title>
   </head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
@@ -213,20 +213,14 @@
     <header class="post-header">
       <h1 class="post-title">
         
-          Jira Auto Assignee的配置
+          MSSQL SSL Security Error
         
       </h1>
 
       <div class="post-meta">
         <span class="post-time">
-          2018-05-10
+          2020-06-13
         </span>
-        
-          <div class="post-category">
-            
-              <a href="/categories/Jira/">Jira</a>
-            
-          </div>
         
         
       </div>
@@ -237,15 +231,17 @@
 
     <div class="post-content">
       
-        <p>最近在设置Jira Workflow的时候，有的项目组需要设置创建的Bug默认指定给某个组，有的项目却并不需要设置这样的情况，因为这些项目使用的是同一套WorkFlow，所以如果在创建Bug的时候，在PostFunction里给他们统一设置了Assignee 为 -1 就会影响所有的项目，并且这样的设置有一个很大的问题，就是会覆盖掉你在Create Bug页面上指定的Assignee。</p>
-<p>为了解决这个问题，就找了找Jira的文档，写出下面的语句来控制，写在Post function里的custom script</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.atlassian.jira.ComponentManager</span><br><span class="line"><span class="keyword">import</span> com.atlassian.jira.issue.MutableIssue</span><br><span class="line"><span class="keyword">import</span> com.atlassian.jira.security.Permissions</span><br><span class="line"><span class="keyword">import</span> org.apache.log4j.Logger</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> componentManager = ComponentManager.getInstance()</span><br><span class="line"><span class="keyword">def</span> projectLead = issue.getProjectObject().getProjectLead().getKey()</span><br><span class="line"><span class="keyword">def</span> projectAssigneeType = issue.getProjectObject().getAssigneeType()</span><br><span class="line"><span class="keyword">def</span> permissionManager = componentManager.getPermissionManager()</span><br><span class="line"></span><br><span class="line"><span class="comment">//打印出类型来，在Log里我们能看出是3是UnAssigned，2是Project Lead,详情看下面的附录链接</span></span><br><span class="line">log.error(<span class="string">"Auto assign for issue "</span> + projectAssigneeType)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ((! issue.assigneeId) &amp;&amp; (projectAssigneeType == <span class="number">2</span>)) &#123;</span><br><span class="line">    <span class="keyword">if</span> (permissionManager.hasPermission(Permissions.ASSIGNABLE_USER, issue, projectLead)) &#123;</span><br><span class="line">        issue.assigneeId = projectLead</span><br><span class="line">        <span class="comment">//issue.assigneeId = Unassigned  设置issue Assignee为 Unassigned</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>附录</p>
-<ol>
-<li>关于Jira中project default assignee设置对应的值 <a href="https://docs.atlassian.com/software/jira/docs/api/6.2.1/constant-values.html#com.atlassian.jira.project.AssigneeTypes.UNASSIGNED" target="_blank" rel="noopener">https://docs.atlassian.com/software/jira/docs/api/6.2.1/constant-values.html#com.atlassian.jira.project.AssigneeTypes.UNASSIGNED</a></li>
-<li>关于Jira中ProjectObject对象中的方法，<a href="https://docs.atlassian.com/software/jira/docs/api/6.2.1/com/atlassian/jira/project/Project.html#getAssigneeType()" target="_blank" rel="noopener">https://docs.atlassian.com/software/jira/docs/api/6.2.1/com/atlassian/jira/project/Project.html#getAssigneeType()</a></li>
-<li>关于Jira中 AssigneeType 类型，<a href="https://docs.atlassian.com/software/jira/docs/api/6.2.1/com/atlassian/jira/project/AssigneeTypes.html#PROJECT_LEAD" target="_blank" rel="noopener">https://docs.atlassian.com/software/jira/docs/api/6.2.1/com/atlassian/jira/project/AssigneeTypes.html#PROJECT_LEAD</a></li>
-</ol>
+        <p>#MSSQL SSL Security error</p>
+<p>今天ruby脚本的执行的时候遇到了下面的错误。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">C:/Ruby22-x64/lib/ruby/gems/<span class="number">2.2</span>.<span class="number">0</span>/gems/dbd-odbc-<span class="number">0.2</span>.<span class="number">5</span>/lib/dbd/odbc/driver.rb:<span class="number">36</span>:<span class="keyword">in</span> `rescue <span class="keyword">in</span> connect<span class="string">': 08001 (18) [Microsoft][ODBC SQL Server Driver][DBNETLIB]SSL Security error (DBI::DatabaseError)</span></span><br><span class="line"><span class="string">	from C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/dbd-odbc-0.2.5/lib/dbd/odbc/driver.rb:16:in `connect'</span></span><br><span class="line">	from C:/Ruby22-x64/lib/ruby/gems/<span class="number">2.2</span>.<span class="number">0</span>/gems/dbi-<span class="number">0.4</span>.<span class="number">5</span>/lib/dbi/handles/driver.rb:<span class="number">33</span>:<span class="keyword">in</span> `connect<span class="string">'</span></span><br><span class="line"><span class="string">	from C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/dbi-0.4.5/lib/dbi.rb:148:in `connect'</span></span><br><span class="line">	from Deploy_Stage_ignite_server.rb:<span class="number">427</span>:<span class="keyword">in</span> `block <span class="keyword">in</span> &lt;main&gt;<span class="string">'</span></span><br><span class="line"><span class="string">	from Deploy_Stage_ignite_server.rb:380:in `each'</span></span><br><span class="line">	from Deploy_Stage_ignite_server.rb:<span class="number">380</span>:<span class="keyword">in</span> `&lt;main&gt;<span class="string">'</span></span><br></pre></td></tr></table></figure>
+<p>分析了一下，这个可能是跟公司禁用TLS1.0有关系，尽管我在注册表里打开了TLS1.0 还是不能解决这个问题，看错误信息是ODBC去连接的时候SSL的检查不能通过，可能是DB那边的设置不允许TLS1.0的连接，但是老的ODBC的配置还是用的TLS1.0. 于是就去把机器上的ODBC升级了一下，并且更新了连接字符串，完美解决。</p>
+<p>ODBC17 链接</p>
+<p><a href="https://www.microsoft.com/en-us/download/details.aspx?id=56567" target="_blank" rel="noopener">https://www.microsoft.com/en-us/download/details.aspx?id=56567</a></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#老的连接字符串配置的是旧版本的ODBC</span></span><br><span class="line">conn = DBI.connect(<span class="string">"DBI:ODBC:DRIVER=&#123;SQL Server&#125;;Server=<span class="subst">#&#123;server&#125;</span>;Database=<span class="subst">#&#123;database&#125;</span>;uid=<span class="subst">#&#123;user&#125;</span>;pwd=<span class="subst">#&#123;password&#125;</span>"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#装了最新的ODBC，并且修改连接字符串为下面这个</span></span><br><span class="line">conn = DBI.connect(<span class="string">"DBI:ODBC:DRIVER=&#123;ODBC Driver 17 for SQL Server&#125;;Server=<span class="subst">#&#123;server&#125;</span>;Database=<span class="subst">#&#123;database&#125;</span>;uid=<span class="subst">#&#123;user&#125;</span>;pwd=<span class="subst">#&#123;password&#125;</span>"</span>)</span><br></pre></td></tr></table></figure>
+<p>同时发现了下面这个老版本SQLCMD的问题，安装了最新版的SQLCMD就好了.</p>
+<p>下面是SQLCMD的链接</p>
+<p><a href="https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility?view=sql-server-ver15（这个需要先安装" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility?view=sql-server-ver15（这个需要先安装</a> .Net Framework4.5 和 ODBC 17)</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Sqlcmd: Error: Microsoft ODBC Driver <span class="number">11</span> <span class="keyword">for</span> SQL Server : Client unable to establish connection.</span><br><span class="line">Sqlcmd: Error: Microsoft ODBC Driver <span class="number">11</span> <span class="keyword">for</span> SQL Server : A network-related or instance-specific error has occurred <span class="keyword">while</span> establishing a connection to SQL Server. Server is not found or not accessible. Check <span class="keyword">if</span> instance name is correct and <span class="keyword">if</span> SQL Server is configured to allow remote connections. <span class="keyword">For</span> more information see SQL Server Books Online..</span><br><span class="line">Sqlcmd: Error: Microsoft ODBC Driver <span class="number">11</span> <span class="keyword">for</span> SQL Server : Encryption not supported on the client..</span><br><span class="line">Sqlcmd: Error: Microsoft ODBC Driver <span class="number">11</span> <span class="keyword">for</span> SQL Server : SSL Provider: The client and server cannot communicate, because they <span class="keyword">do</span> not possess a common algorithm.</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -261,7 +257,7 @@
     </p>
     <p class="copyright-item">
       <span>原文链接: </span>
-      <a href="http://PaulZhao.github.io/2018/05/10/Jira-Auto-Assignee的配置/">http://PaulZhao.github.io/2018/05/10/Jira-Auto-Assignee的配置/</a>
+      <a href="http://PaulZhao.github.io/2020/06/13/MSSQL-SSL-Security-Error/">http://PaulZhao.github.io/2020/06/13/MSSQL-SSL-Security-Error/</a>
     </p>
     <p class="copyright-item">
       <span>许可协议: </span>
@@ -281,7 +277,7 @@
         
           <div class="post-tags">
             
-              <a href="/tags/Jira/">Jira</a>
+              <a href="/tags/MSSQL/">MSSQL</a>
             
           </div>
         
@@ -289,15 +285,9 @@
         
   <nav class="post-nav">
     
-      <a class="prev" href="/2018/06/22/Jira密码修改/">
-        <i class="iconfont icon-left"></i>
-        <span class="prev-text nav-default">Jira密码修改</span>
-        <span class="prev-text nav-mobile">上一篇</span>
-      </a>
     
-    
-      <a class="next" href="/2018/03/23/修改AppPool中的账号密码/">
-        <span class="next-text nav-default">修改AppPool中的账号密码</span>
+      <a class="next" href="/2018/09/11/MySQL-Trigger/">
+        <span class="next-text nav-default">MySQL Trigger</span>
         <span class="prev-text nav-mobile">下一篇</span>
         <i class="iconfont icon-right"></i>
       </a>

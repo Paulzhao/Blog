@@ -213,6 +213,56 @@
     <header class="post-header">
       <h1 class="post-title">
         
+          <a class="post-link" href="/2020/06/13/MSSQL-SSL-Security-Error/">MSSQL SSL Security Error</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2020-06-13
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <p>#MSSQL SSL Security error</p>
+<p>今天ruby脚本的执行的时候遇到了下面的错误。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">C:/Ruby22-x64/lib/ruby/gems/<span class="number">2.2</span>.<span class="number">0</span>/gems/dbd-odbc-<span class="number">0.2</span>.<span class="number">5</span>/lib/dbd/odbc/driver.rb:<span class="number">36</span>:<span class="keyword">in</span> `rescue <span class="keyword">in</span> connect<span class="string">': 08001 (18) [Microsoft][ODBC SQL Server Driver][DBNETLIB]SSL Security error (DBI::DatabaseError)</span></span><br><span class="line"><span class="string">	from C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/dbd-odbc-0.2.5/lib/dbd/odbc/driver.rb:16:in `connect'</span></span><br><span class="line">	from C:/Ruby22-x64/lib/ruby/gems/<span class="number">2.2</span>.<span class="number">0</span>/gems/dbi-<span class="number">0.4</span>.<span class="number">5</span>/lib/dbi/handles/driver.rb:<span class="number">33</span>:<span class="keyword">in</span> `connect<span class="string">'</span></span><br><span class="line"><span class="string">	from C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/dbi-0.4.5/lib/dbi.rb:148:in `connect'</span></span><br><span class="line">	from Deploy_Stage_ignite_server.rb:<span class="number">427</span>:<span class="keyword">in</span> `block <span class="keyword">in</span> &lt;main&gt;<span class="string">'</span></span><br><span class="line"><span class="string">	from Deploy_Stage_ignite_server.rb:380:in `each'</span></span><br><span class="line">	from Deploy_Stage_ignite_server.rb:<span class="number">380</span>:<span class="keyword">in</span> `&lt;main&gt;<span class="string">'</span></span><br></pre></td></tr></table></figure>
+<p>分析了一下，这个可能是跟公司禁用TLS1.0有关系，尽管我在注册表里打开了TLS1.0 还是不能解决这个问题，看错误信息是ODBC去连接的时候SSL的检查不能通过，可能是DB那边的设置不允许TLS1.0的连接，但是老的ODBC的配置还是用的TLS1.0. 于是就去把机器上的ODBC升级了一下，并且更新了连接字符串，完美解决。</p>
+<p>ODBC17 链接</p>
+<p><a href="https://www.microsoft.com/en-us/download/details.aspx?id=56567" target="_blank" rel="noopener">https://www.microsoft.com/en-us/download/details.aspx?id=56567</a></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#老的连接字符串配置的是旧版本的ODBC</span></span><br><span class="line">conn = DBI.connect(<span class="string">"DBI:ODBC:DRIVER=&#123;SQL Server&#125;;Server=<span class="subst">#&#123;server&#125;</span>;Database=<span class="subst">#&#123;database&#125;</span>;uid=<span class="subst">#&#123;user&#125;</span>;pwd=<span class="subst">#&#123;password&#125;</span>"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#装了最新的ODBC，并且修改连接字符串为下面这个</span></span><br><span class="line">conn = DBI.connect(<span class="string">"DBI:ODBC:DRIVER=&#123;ODBC Driver 17 for SQL Server&#125;;Server=<span class="subst">#&#123;server&#125;</span>;Database=<span class="subst">#&#123;database&#125;</span>;uid=<span class="subst">#&#123;user&#125;</span>;pwd=<span class="subst">#&#123;password&#125;</span>"</span>)</span><br></pre></td></tr></table></figure>
+<p>同时发现了下面这个老版本SQLCMD的问题，安装了最新版的SQLCMD就好了.</p>
+<p>下面是SQLCMD的链接</p>
+<p><a href="https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility?view=sql-server-ver15（这个需要先安装" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility?view=sql-server-ver15（这个需要先安装</a> .Net Framework4.5 和 ODBC 17)</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Sqlcmd: Error: Microsoft ODBC Driver <span class="number">11</span> <span class="keyword">for</span> SQL Server : Client unable to establish connection.</span><br><span class="line">Sqlcmd: Error: Microsoft ODBC Driver <span class="number">11</span> <span class="keyword">for</span> SQL Server : A network-related or instance-specific error has occurred <span class="keyword">while</span> establishing a connection to SQL Server. Server is not found or not accessible. Check <span class="keyword">if</span> instance name is correct and <span class="keyword">if</span> SQL Server is configured to allow remote connections. <span class="keyword">For</span> more information see SQL Server Books Online..</span><br><span class="line">Sqlcmd: Error: Microsoft ODBC Driver <span class="number">11</span> <span class="keyword">for</span> SQL Server : Encryption not supported on the client..</span><br><span class="line">Sqlcmd: Error: Microsoft ODBC Driver <span class="number">11</span> <span class="keyword">for</span> SQL Server : SSL Provider: The client and server cannot communicate, because they <span class="keyword">do</span> not possess a common algorithm.</span><br></pre></td></tr></table></figure>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
           <a class="post-link" href="/2018/09/11/MySQL-Trigger/">MySQL Trigger</a>
         
       </h1>
@@ -529,7 +579,7 @@
      
       2015 - 
     
-    2019
+    2020
 
     <span class="heart">
       <i class="iconfont icon-heart"></i>
